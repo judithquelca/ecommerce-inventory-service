@@ -1,5 +1,6 @@
 package dev.judyquelca.inventoryservice.service;
 
+import dev.judyquelca.exception.InventoryNotFoundException;
 import dev.judyquelca.inventoryservice.kafka.event.InventoryUpdatedEvent;
 import dev.judyquelca.inventoryservice.kafka.event.OrderPlacedEvent;
 import dev.judyquelca.inventoryservice.kafka.event.OrderCancelledEvent;
@@ -41,20 +42,10 @@ public class InventoryService {
 
         // Verificar que no exista ya un item para este producto
         if (inventoryRepository.existsByProductId(request.productId())) {
-            throw new RuntimeException(
+
+            throw new InventoryNotFoundException(
                     "Inventory item already exists for productId: " + request.productId());
         }
-
-        /*InventoryItem item = new InventoryItem(
-                request.getProductId(),
-                request.getProductName(),
-                request.getInitialStock()
-        );
-
-        InventoryItem saved = inventoryRepository.save(item);
-        log.info("Inventory item created: {}", saved);
-
-        return toResponse(saved);*/
 
         InventoryItem item = new InventoryItem();
         InventoryMapper.updateEntity(request, item);
@@ -82,9 +73,8 @@ public class InventoryService {
     public InventoryItemResponse getInventoryItemById(Long id) {
         log.debug("Fetching inventory item by id: {}", id);
         InventoryItem item = inventoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Inventory item not found with id: " + id));
-        //return toResponse(item);
-        return InventoryMapper.toResponse(item);
+                .orElseThrow(() -> new InventoryNotFoundException("Inventory item not found with id: " + id));
+               return InventoryMapper.toResponse(item);
     }
 
     /**
@@ -95,8 +85,8 @@ public class InventoryService {
         log.debug("Fetching inventory item by productId: {}", productId);
         InventoryItem item = inventoryRepository.findByProductId(productId)
                 .orElseThrow(
-                        () -> new RuntimeException("Inventory item not found for productId: " + productId));
-        //return toResponse(item);
+                        () -> new InventoryNotFoundException("Inventory item not found for productId: " + productId));
+
         return InventoryMapper.toResponse(item);
     }
 
@@ -107,7 +97,7 @@ public class InventoryService {
     public void deleteInventoryItem(Long id) {
         log.info("Deleting inventory item with id: {}", id);
         if (!inventoryRepository.existsById(id)) {
-            throw new RuntimeException("Inventory item not found with id: " + id);
+            throw new InventoryNotFoundException("Inventory item not found with id: " + id);
         }
         inventoryRepository.deleteById(id);
         log.info("Inventory item deleted: id={}", id);
@@ -127,7 +117,7 @@ public class InventoryService {
         try {
             // 1. Buscar item de inventario
             InventoryItem item = inventoryRepository.findByProductId(event.getProductId())
-                    .orElseThrow(() -> new RuntimeException(
+                    .orElseThrow(() -> new InventoryNotFoundException(
                             "Inventory item not found for productId: " + event.getProductId()
                     ));
 
@@ -200,19 +190,4 @@ public class InventoryService {
         }
     }
 
-    /**
-     * Mapper: Entity → DTO Response
-     */
-    /*private InventoryItemResponse toResponse(InventoryItem item) {
-        return new InventoryItemResponse(
-                item.getId(),
-                item.getProductId(),
-                item.getProductName(),
-                item.getAvailableStock(),
-                item.getReservedStock(),
-                item.getTotalStock(),
-                item.getCreatedAt(),
-                item.getUpdatedAt()
-        );
-    }*/
 }
