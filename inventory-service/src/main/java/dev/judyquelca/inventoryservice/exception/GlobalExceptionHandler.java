@@ -1,4 +1,4 @@
-package dev.judyquelca.exception;
+package dev.judyquelca.inventoryservice.exception;
 
 import dev.judyquelca.inventoryservice.dto.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,4 +1,4 @@
-package dev.judyquelca.exception;
+package dev.judyquelca.inventoryservice.exception;
 
 public class InventoryNotFoundException extends RuntimeException {
     public InventoryNotFoundException(String message) {

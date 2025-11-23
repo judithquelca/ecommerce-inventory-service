@@ -1,6 +1,6 @@
 package dev.judyquelca.inventoryservice.service;
 
-import dev.judyquelca.exception.InventoryNotFoundException;
+import dev.judyquelca.inventoryservice.exception.InventoryNotFoundException;
 import dev.judyquelca.inventoryservice.kafka.event.InventoryUpdatedEvent;
 import dev.judyquelca.inventoryservice.kafka.event.OrderPlacedEvent;
 import dev.judyquelca.inventoryservice.kafka.event.OrderCancelledEvent;
