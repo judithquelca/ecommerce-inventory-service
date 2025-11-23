@@ -5,9 +5,10 @@ import dev.judyquelca.inventoryservice.kafka.event.OrderPlacedEvent;
 import dev.judyquelca.inventoryservice.kafka.event.OrderCancelledEvent;
 import dev.judyquelca.inventoryservice.kafka.event.OrderConfirmedEvent;
 import dev.judyquelca.inventoryservice.kafka.producer.InventoryEventProducer;
-import dev.judyquelca.inventoryservice.model.dto.InventoryItemRequest;
-import dev.judyquelca.inventoryservice.model.dto.InventoryItemResponse;
-import dev.judyquelca.inventoryservice.model.entity.InventoryItem;
+import dev.judyquelca.inventoryservice.dto.InventoryItemRequest;
+import dev.judyquelca.inventoryservice.dto.InventoryItemResponse;
+import dev.judyquelca.inventoryservice.mapper.InventoryMapper;
+import dev.judyquelca.inventoryservice.model.InventoryItem;
 import dev.judyquelca.inventoryservice.repository.InventoryRepository;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,15 +37,15 @@ public class InventoryService {
      */
     @Transactional
     public InventoryItemResponse createInventoryItem(InventoryItemRequest request) {
-        log.info("Creating inventory item for productId: {}", request.getProductId());
+        //log.info("Creating inventory item for productId: {}", request.getProductId());
 
         // Verificar que no exista ya un item para este producto
-        if (inventoryRepository.existsByProductId(request.getProductId())) {
+        if (inventoryRepository.existsByProductId(request.productId())) {
             throw new RuntimeException(
-                    "Inventory item already exists for productId: " + request.getProductId());
+                    "Inventory item already exists for productId: " + request.productId());
         }
 
-        InventoryItem item = new InventoryItem(
+        /*InventoryItem item = new InventoryItem(
                 request.getProductId(),
                 request.getProductName(),
                 request.getInitialStock()
@@ -53,7 +54,12 @@ public class InventoryService {
         InventoryItem saved = inventoryRepository.save(item);
         log.info("Inventory item created: {}", saved);
 
-        return toResponse(saved);
+        return toResponse(saved);*/
+
+        InventoryItem item = new InventoryItem();
+        InventoryMapper.updateEntity(request, item);
+        InventoryItem saved = inventoryRepository.save(item);
+        return InventoryMapper.toResponse(saved);
     }
 
     /**
@@ -64,7 +70,8 @@ public class InventoryService {
         log.debug("Fetching all inventory items");
         return inventoryRepository.findAll()
                 .stream()
-                .map(this::toResponse)
+                //.map(this::toResponse)
+                .map(InventoryMapper::toResponse)
                 .collect(Collectors.toList());
     }
 
@@ -76,7 +83,8 @@ public class InventoryService {
         log.debug("Fetching inventory item by id: {}", id);
         InventoryItem item = inventoryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Inventory item not found with id: " + id));
-        return toResponse(item);
+        //return toResponse(item);
+        return InventoryMapper.toResponse(item);
     }
 
     /**
@@ -88,7 +96,8 @@ public class InventoryService {
         InventoryItem item = inventoryRepository.findByProductId(productId)
                 .orElseThrow(
                         () -> new RuntimeException("Inventory item not found for productId: " + productId));
-        return toResponse(item);
+        //return toResponse(item);
+        return InventoryMapper.toResponse(item);
     }
 
     /**
@@ -194,7 +203,7 @@ public class InventoryService {
     /**
      * Mapper: Entity → DTO Response
      */
-    private InventoryItemResponse toResponse(InventoryItem item) {
+    /*private InventoryItemResponse toResponse(InventoryItem item) {
         return new InventoryItemResponse(
                 item.getId(),
                 item.getProductId(),
@@ -205,5 +214,5 @@ public class InventoryService {
                 item.getCreatedAt(),
                 item.getUpdatedAt()
         );
-    }
+    }*/
 }

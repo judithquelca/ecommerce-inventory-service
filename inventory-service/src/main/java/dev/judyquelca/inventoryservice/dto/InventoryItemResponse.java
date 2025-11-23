@@ -1,8 +1,22 @@
-package dev.judyquelca.inventoryservice.model.dto;
+package dev.judyquelca.inventoryservice.dto;
 
+import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDateTime;
 
-public class InventoryItemResponse {
+public record InventoryItemResponse(
+
+         Long id,
+         Long productId,
+         String productName,
+         Integer availableStock,
+         Integer reservedStock,
+         Integer totalStock,
+         Instant createdAt,
+         Instant updatedAt
+) {
+}
+/*public class InventoryItemResponse {
 
   private Long id;
   private Long productId;
@@ -108,4 +122,4 @@ public class InventoryItemResponse {
         ", totalStock=" + totalStock +
         '}';
   }
-}
+}*/

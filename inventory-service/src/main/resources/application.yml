@@ -38,3 +38,6 @@ logging:
   level:
     dev.judyquelca.inventoryservice: DEBUG
     org.springframework.web: INFO
+
+messages:
+  basename: ValidationMessages

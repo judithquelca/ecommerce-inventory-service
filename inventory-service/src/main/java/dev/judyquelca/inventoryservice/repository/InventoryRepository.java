@@ -1,6 +1,6 @@
 package dev.judyquelca.inventoryservice.repository;
 
-import dev.judyquelca.inventoryservice.model.entity.InventoryItem;
+import dev.judyquelca.inventoryservice.model.InventoryItem;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

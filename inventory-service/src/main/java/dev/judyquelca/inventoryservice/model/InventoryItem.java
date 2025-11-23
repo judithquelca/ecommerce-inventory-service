@@ -1,4 +1,4 @@
-package dev.judyquelca.inventoryservice.model.entity;
+package dev.judyquelca.inventoryservice.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,6 +8,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.Instant;
 
 @Entity
@@ -172,4 +175,7 @@ public class InventoryItem {
         ", totalStock=" + getTotalStock() +
         '}';
   }
+
+    public void setInitialStock(@NotNull(message = "{inventory.stock.notblank}") @Min(value = 0, message = "{inventory.stock.positive}") Integer integer) {
+    }
 }

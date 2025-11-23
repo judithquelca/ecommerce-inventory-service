@@ -1,7 +1,7 @@
 package dev.judyquelca.inventoryservice.controller;
 
-import dev.judyquelca.inventoryservice.model.dto.InventoryItemRequest;
-import dev.judyquelca.inventoryservice.model.dto.InventoryItemResponse;
+import dev.judyquelca.inventoryservice.dto.InventoryItemRequest;
+import dev.judyquelca.inventoryservice.dto.InventoryItemResponse;
 import dev.judyquelca.inventoryservice.service.InventoryService;
 import jakarta.validation.Valid;
 import java.util.List;
