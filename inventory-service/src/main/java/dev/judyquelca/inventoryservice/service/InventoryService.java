@@ -61,7 +61,6 @@ public class InventoryService {
         log.debug("Fetching all inventory items");
         return inventoryRepository.findAll()
                 .stream()
-                //.map(this::toResponse)
                 .map(InventoryMapper::toResponse)
                 .collect(Collectors.toList());
     }
@@ -73,7 +72,7 @@ public class InventoryService {
     public InventoryItemResponse getInventoryItemById(Long id) {
         log.debug("Fetching inventory item by id: {}", id);
         InventoryItem item = inventoryRepository.findById(id)
-                .orElseThrow(() -> new InventoryNotFoundException("Inventory item not found with id: " + id));
+                .orElseThrow(() -> new InventoryNotFoundException("Item de inventario no encontrado con id: " + id));
                return InventoryMapper.toResponse(item);
     }
 
@@ -85,7 +84,7 @@ public class InventoryService {
         log.debug("Fetching inventory item by productId: {}", productId);
         InventoryItem item = inventoryRepository.findByProductId(productId)
                 .orElseThrow(
-                        () -> new InventoryNotFoundException("Inventory item not found for productId: " + productId));
+                        () -> new InventoryNotFoundException("Item de inventario no encontrado para el producto id: " + productId));
 
         return InventoryMapper.toResponse(item);
     }
@@ -97,7 +96,7 @@ public class InventoryService {
     public void deleteInventoryItem(Long id) {
         log.info("Deleting inventory item with id: {}", id);
         if (!inventoryRepository.existsById(id)) {
-            throw new InventoryNotFoundException("Inventory item not found with id: " + id);
+            throw new InventoryNotFoundException("Item de inventario no encontrado con id: " + id);
         }
         inventoryRepository.deleteById(id);
         log.info("Inventory item deleted: id={}", id);
