@@ -176,6 +176,4 @@ public class InventoryItem {
         '}';
   }
 
-    public void setInitialStock(@NotNull(message = "{inventory.stock.notblank}") @Min(value = 0, message = "{inventory.stock.positive}") Integer integer) {
-    }
 }

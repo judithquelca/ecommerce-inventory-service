@@ -46,11 +46,16 @@ public class InventoryService {
             throw new InventoryNotFoundException(
                     "Inventory item already exists for productId: " + request.productId());
         }
+        InventoryItem item = new InventoryItem(
+                request.productId(),
+                request.productName(),
+                request.initialStock()
+        );
 
-        InventoryItem item = new InventoryItem();
-        InventoryMapper.updateEntity(request, item);
         InventoryItem saved = inventoryRepository.save(item);
+        log.info("Inventory item created: {}", saved);
         return InventoryMapper.toResponse(saved);
+
     }
 
     /**

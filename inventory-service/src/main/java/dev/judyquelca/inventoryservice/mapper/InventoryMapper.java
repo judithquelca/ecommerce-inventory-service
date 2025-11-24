@@ -21,7 +21,6 @@ public final class InventoryMapper {
                 inventoryItem.getTotalStock(),
                 inventoryItem.getCreatedAt(),
                 inventoryItem.getUpdatedAt()
-
         );
     }
 
@@ -29,7 +28,7 @@ public final class InventoryMapper {
 
         entity.setProductId(request.productId());
         entity.setProductName(request.productName());
-        entity.setInitialStock(request.initialStock());
+        entity.setAvailableStock(request.initialStock());
 
     }
 }
