@@ -22,16 +22,15 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring.json.type.mapping:
-          orderConfirmedEvent:dev.judyquelca.inventoryservice.kafka.event.OrderConfirmedEvent,
-          orderCancelledEvent:dev.judyquelca.inventoryservice.kafka.event.OrderCancelledEvent,
-          orderPlacedEvent:dev.judyquelca.inventoryservice.kafka.event.OrderPlacedEvent
+            orderPlacedEvent:dev.judyquelca.inventoryservice.kafka.event.OrderPlacedEvent
         spring.json.trusted.packages: "*"
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       properties:
         spring.json.type.mapping:
-          orderConfirmedEvent:dev.judyquelca.inventoryservice.kafka.event.OrderConfirmedEvent
+          orderConfirmedEvent:dev.judyquelca.inventoryservice.kafka.event.OrderConfirmedEvent,
+          orderCancelledEvent:dev.judyquelca.inventoryservice.kafka.event.OrderCancelledEvent
 server:
   port: 8082
 logging:
